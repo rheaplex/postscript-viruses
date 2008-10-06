@@ -1,0 +1,14 @@
+%Alias
+%Puts an offset copy of the current character over itself
+%and fills the resulting combined outline
+
+%Add to show.ps
+%Change "paint" to fill
+%Might have to Upath the character outline, deleting the closepath
+
+/letter { %def
+	currenty modify currentx modify moveto
+	thischar true charpath
+} bind def
+
+

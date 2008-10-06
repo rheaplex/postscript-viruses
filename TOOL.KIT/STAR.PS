@@ -1,0 +1,26 @@
+%Star
+%Draws a star somewhere over the current character
+%and fills the resulting combined outline
+
+%Add to show.ps in the toolkit
+%Delete "paint" from /show
+%Upath the character outline deleting its "closepath?"
+
+/letter { %def
+	thischar stringwidth
+	2 div /stary exch def
+	2 div /starx exch def
+	starx modify stary modify rmoveto
+	starx starx 2 div
+	star
+} bind def
+
+/star { %def
+	gsave
+	 currentpoint translate
+	 4 { 144 rotate 0 starx lineto } repeat
+	 closepath
+	 fill
+	grestore
+} bind def
+

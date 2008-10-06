@@ -1,0 +1,54 @@
+/wordbreak ( ) def
+/breakintolines	{ %def
+	/proc exch def
+	/linewidth exch def
+	/textstring exch def
+	/breakwidth wordbreak stringwidth pop def
+	/curwidth 0 def
+	/lastwordbreak 0 def
+	/startchar 0 def
+	/restoftext textstring def
+	{ %loop
+		restoftext wordbreak search
+		{ %ifelse
+			/nextword exch def pop
+			/restoftext exch def
+			/wordwidth nextword stringwidth pop def
+				curwidth wordwidth add linewidth gt { %ifelse
+				textstring startchar
+				lastwordbreak startchar sub
+				getinterval proc
+				/startchar lastwordbreak def
+				/curwidth wordwidth breakwidth add def 
+			}{ %elseif
+				/curwidth curwidth wordwidth add
+				breakwidth add def
+			} ifelse
+			/lastwordbreak lastwordbreak
+			nextword length add 1 add def
+		}{ %elseif
+			pop exit
+		} ifelse
+	}loop	
+
+	/lastchar textstring length def
+	textstring startchar lastchar startchar sub
+	getinterval proc
+} def
+
+/Times-Roman findfont 16 scalefont setfont
+
+/yline 650 def
+
+(This is a test for the line-breaking program.\
+ As such it isn't really that interesting but this\
+ is programming, not pure or applied aesthetics.\
+ I'll put it to good use in a kind of viral control-\
+ code document processor, though.)
+300
+{72 yline moveto show
+  /yline yline 18 sub def}
+
+breakintolines
+
+showpage

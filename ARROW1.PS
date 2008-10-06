@@ -1,0 +1,102 @@
+/*scalefont /scalefont load def
+/scalefont { %def
+	dup 12 div /fontsiz exch def
+	*scalefont
+} bind def
+
+
+/pathtextdict 26 dict def
+
+/pathtext { %def
+	pathtextdict begin
+	/str (  v) def
+	/pathdist 0 def
+	/setdist 0 def
+	/charcount 0 def
+
+	gsave 
+ 	 /Courier findfont fontsiz scalefont setfont
+	 flattenpath
+	 { tomove } { toline } { tocurve } { toclose } pathforall
+	grestore
+
+	newpath
+	end 
+} bind def
+
+/tomove { %def
+	/newy exch def
+	/newx exch def
+	/firstx newx def
+	/firsty newy def
+	/ovr 0 def
+	newx newy transform
+	/cpy exch def
+	/cpx exch def
+}bind def
+
+/toline { %def
+	/oldx newx def
+	/oldy newy def
+	/newy exch def
+	/newx exch def
+	/dx newx oldx sub def
+	/dy newy oldy sub def
+	/dist dx dup mul dy dup mul add abs sqrt def
+	dist 0 ne { %if
+		/dsx dx dist div ovr mul def
+		/dsy dy dist div ovr mul def
+		oldx dsx add oldy dsy add transform
+		/cpy exch def
+		/cpx exch def
+		/pathdist pathdist dist add def
+		 { %loop
+			setdist pathdist le { %ifelse
+				 setchar 
+			}{ %elseif
+				 /ovr setdist pathdist sub def exit
+			 } ifelse 
+		} loop					
+	} if
+} bind def
+
+/tocurve { %def
+	(ERROR! No curves after flattenpath!) print
+} bind def
+
+/closepathproc { %def
+	firstx firsty toline
+	firstx firsty tomove
+} bind def
+
+/setchar { %def
+	/char str charcount 1 getinterval def
+	/charcount charcount 1 add def
+	/charwidth char stringwidth pop def
+	gsave
+	cpx cpy itransform translate
+	dy dx atan 180 add rotate
+	0 0 moveto
+	char show
+	charwidth neg 0 moveto
+	currentpoint transform
+	/cpy exch def 
+	/cpx exch def
+	
+	grestore
+	
+	/setdist setdist charwidth add def
+	charcount 3 eq {/charcount 0 def } if
+}def
+%%EndProlog
+
+	/Helvetica findfont 170 scalefont setfont
+	100 100 moveto
+	(v) true charpath stroke
+	100 100 moveto
+	(v) true charpath
+	pathtext
+	100 200 moveto
+	(v) show
+
+showpage
