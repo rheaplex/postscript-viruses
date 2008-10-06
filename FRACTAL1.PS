@@ -1,0 +1,34 @@
+%!PS-Adobe-2.0
+%%Title: fractal1.ps
+%%Creator: Robert Myers
+%%EndComments
+
+% --------- Variables & Procedures ---------
+/depth 0 def
+/maxdepth 10 def
+/down { /depth depth 1 add def } def
+/up { /depth depth 1 sub def } def
+
+/DoLine { %def-print a vertical line
+	0 600 rlineto currentpoint
+	stroke translate 0 0 moveto
+} bind def
+
+/FractArrow { %def
+	gsave
+		.6 .6 scale		%reduce scale
+		10 setlinewidth  	%set line width	
+		down DoLine		%print line
+		depth maxdepth le	%depth<maximum depth?
+		{ %if
+			 135 rotate FractArrow
+			-270 rotate FractArrow
+		}if
+		up grestore
+		} bind def
+
+% ---------- Begin Program ----------
+300 300 moveto
+FractArrow
+stroke 
+showpage
