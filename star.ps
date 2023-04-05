@@ -1,1 +1,18 @@
-%!PS-Adobe-2.0%%Endprolog/star { %def	gsave	 0 12 moveto	 4 { 144 rotate 0 12 lineto } repeat	 closepath	 fill	grestore} bind defgsave  200 200 translate  stargrestoreshowpage
+%!PS-Adobe-2.0
+%%Endprolog
+
+/star { %def
+	gsave
+	 0 12 moveto
+	 4 { 144 rotate 0 12 lineto } repeat
+	 closepath
+	 fill
+	grestore
+} bind def
+
+gsave
+  200 200 translate
+  star
+grestore
+
+showpage
