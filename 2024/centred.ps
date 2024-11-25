@@ -1,0 +1,32 @@
+%!PS
+
+/pagewidth  currentpagedevice /PageSize get 0 get def
+/pageheight currentpagedevice /PageSize get 1 get def
+
+/vcentre  fontSize 2 div neg def
+/hcentre  pagewidth 2 div def
+/voffset  pageheight marginSize sub def
+/hoffset  pagewidth 2 div marginSize add def
+
+rows {
+    dup type /stringtype eq {
+        gsave
+        hoffset voffset translate
+        hcentre neg vcentre moveto
+        show
+        grestore
+        /voffset voffset fontSize sub def
+    } {
+        dup type /arraytype eq {
+            aload pop setgray pop pop
+        } {
+            /fontSize exch def
+            /vcentre fontSize 2 div neg def
+            fontFace findfont
+            fontSize scalefont
+            setfont
+        } ifelse
+    } ifelse
+} forall
+
+showpage

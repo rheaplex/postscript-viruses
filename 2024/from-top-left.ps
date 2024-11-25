@@ -1,0 +1,27 @@
+%!PS
+
+/pagewidth  currentpagedevice /PageSize get 0 get def
+/pageheight currentpagedevice /PageSize get 1 get def
+
+/centre fontSize 2 div neg def
+/offset pageheight fontSize marginSize 2 mul add sub def
+
+rows {
+    dup type /stringtype eq {
+        marginSize offset moveto
+        show
+        /offset offset fontSize sub def
+    } {
+        dup type /arraytype eq {
+            aload pop setgray pop pop
+        } {
+            /fontSize exch def
+            /centre fontSize 2 div neg def
+            fontFace findfont
+            fontSize scalefont
+            setfont
+        } ifelse
+    } ifelse
+} forall
+
+showpage
